@@ -1,0 +1,14 @@
+[tool.poetry]
+name = "sealed-laboratory"
+version = "0.1.0"
+description = "Exercise 0 of The Codex"
+authors = ["Student <hdobashi@student.42tokyo.jp>"]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+pandas = "*"
+numpy = "*"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
