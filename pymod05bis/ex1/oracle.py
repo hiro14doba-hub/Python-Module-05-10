@@ -56,8 +56,10 @@ def check_hardcode() -> bool:
 
 
 def is_env_gitignore() -> bool:
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    gitignore_path = os.path.join(script_dir, ".gitignore")
     try:
-        with open(".gitignore", "r") as f:
+        with open(gitignore_path, "r") as f:
             lines = [line.strip() for line in f.readlines()]
             if ".env" in lines or "*.env" in lines:
                 return True
@@ -67,14 +69,11 @@ def is_env_gitignore() -> bool:
 
 
 def available_override() -> bool:
-    try:
-        with open(__file__, "r")as f:
-            content = f.read()
-        if "load_dotenv()" in content:
-            return True
-    except Exception:
-        pass
-    return False
+    test_key = "_TEST_OVERRIDE_KEY_"
+    os.environ[test_key] = "system_val"
+    is_safe = os.getenv(test_key) == "system_val"
+    os.environ.pop(test_key, None)
+    return is_safe
 
 
 def check_security() -> None:

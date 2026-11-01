@@ -6,7 +6,7 @@ def import_check() -> bool:
         "pandas": "Data manipulation ready",
         "numpy": "Numerical computation ready",
     }
-    missing = []
+    missing: list[str] = []
 
     for name, desc in reagents.items():
         try:
@@ -21,6 +21,7 @@ def import_check() -> bool:
 
 
 def show_pip_vs_poetry() -> None:
+    print("pip vs Poetry:")
     print("requirements.txt declares what to install;"
           " pip resolves it at install time.\n"
           "pyproject.toml declares the same constraints,"
@@ -42,9 +43,11 @@ def show_install_guide() -> None:
 
 
 def main() -> None:
+    print("REAGENT STATUS: Loading reagents...")
+    print("Checking dependencies:")
     is_all_install = import_check()
-    show_pip_vs_poetry()
     if is_all_install:
+        show_pip_vs_poetry()
         show_success()
     else:
         show_install_guide()
