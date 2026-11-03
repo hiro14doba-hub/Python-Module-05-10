@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Any, Union
+from typing import Any, Union, Sequence
 
 
 class DataProcessor(ABC):
@@ -35,7 +35,8 @@ class NumericProcessor(DataProcessor):
         else:
             return False
 
-    def ingest(self, data: Union[int, float, list[Union[int, float]]]) -> None:
+    def ingest(self, data: Union[int, float,
+                                 Sequence[Union[int, float]]]) -> None:
         if not self.validate(data):
             raise ValueError("Improper numeric data")
         if isinstance(data, list):
