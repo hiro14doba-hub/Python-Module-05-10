@@ -120,14 +120,16 @@ class DataStream:
                     break
             if not handlet:
                 print(
-                    f"DataStream error - Can't process element in stream: {item}")
+                    "DataStream error - Can't process element in stream: "
+                    f"{item}")
 
     def print_processors_stats(self) -> None:
         if not self.processors:
             print("No processor found, no data")
             return
         for proc in self.processors:
-            print(f"{proc.__class__.__name__.replace("Processor", " Processor")}: "
+            print(f"{proc.__class__.__name__.replace
+                     ("Processor", " Processor")}: "
                   f"total {proc._total_procces} items processed, "
                   f"remaining {len(proc._storage)} on processor"
                   )
@@ -143,7 +145,8 @@ def main() -> None:
     num_proc = NumericProcessor()
     proc.register_processor(num_proc)
     data_1 = ['Hello world', [3.14, -1, 2.71],
-              [{'log_level': 'WARNING', 'log_message': 'Telnet access! Use ssh instead'},
+              [{'log_level': 'WARNING', 'log_message':
+                'Telnet access! Use ssh instead'},
                {'log_level': 'INFO', 'log_message': 'User wil is connected'}],
               42,
               ['Hi', 'five']
@@ -161,7 +164,8 @@ def main() -> None:
     print("== DataStream statistics ==")
     proc.process_stream(data_1)
     proc.print_processors_stats()
-    print("Consume some elements from the data processors: Numeric 3, Text 2, Log 1")
+    print("Consume some elements from the data "
+          "processors: Numeric 3, Text 2, Log 1")
     for _ in range(3):
         num_proc.output()
     for _ in range(2):
