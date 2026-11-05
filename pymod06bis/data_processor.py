@@ -99,7 +99,7 @@ def main() -> None:
     print("Testing Numeric Processor...")
     num_proc = NumericProcessor()
     print(f"Trying to validate input'42': {num_proc.validate(42)}")
-    print(f"Trying to validate input'Hello': {num_proc.validate("Hello")}")
+    print(f"Trying to validate input'Hello': {num_proc.validate('Hello')}")
     print("Test invalid ingestion of string'foo' without prior validation:")
     try:
         num_proc.ingest("foo")  # type: ignore[arg-type]
@@ -125,7 +125,7 @@ def main() -> None:
 
     print("Testing Log Processor...")
     log_proc = LogProcessor()
-    print(f"Trying to validate input'Hello': {log_proc.validate("Hallo")}")
+    print(f"Trying to validate input'Hello': {log_proc.validate('Hallo')}")
     log_data = [
         {'log_level': 'NOTICE', 'log_message': 'Connection to server'},
         {'log_level': 'ERROR', 'log_message': 'Unauthorized access!!'}

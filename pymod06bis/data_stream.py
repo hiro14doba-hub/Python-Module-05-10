@@ -6,7 +6,7 @@ class DataProcessor(ABC):
     def __init__(self) -> None:
         self._storage: list[str] = []
         self._rank: int = 0
-        self._total_procces: int = 0
+        self._total_process: int = 0
 
     @abstractmethod
     def validate(self, data: Any):
@@ -42,10 +42,10 @@ class NumericProcessor(DataProcessor):
             raise ValueError("Improper numeric data")
         if isinstance(data, list):
             for item in data:
-                self._total_procces += 1
+                self._total_process += 1
                 self._storage.append(str(item))
         else:
-            self._total_procces += 1
+            self._total_process += 1
             self._storage.append(str(data))
 
 
@@ -64,10 +64,10 @@ class TextProcessor(DataProcessor):
             raise ValueError("Improper text data")
         if isinstance(data, list):
             for item in data:
-                self._total_procces += 1
+                self._total_process += 1
                 self._storage.append(item)
         else:
-            self._total_procces += 1
+            self._total_process += 1
             self._storage.append(data)
 
 
@@ -92,11 +92,11 @@ class LogProcessor(DataProcessor):
             raise ValueError("Improper log data")
         if isinstance(data, list):
             for item in data:
-                self._total_procces += 1
+                self._total_process += 1
                 msg = f"{item['log_level']}: {item['log_message']}"
                 self._storage.append(msg)
         else:
-            self._total_procces += 1
+            self._total_process += 1
             msg = f"{data['log_level']}: {data['log_message']}"
             self._storage.append(msg)
 
@@ -104,21 +104,21 @@ class LogProcessor(DataProcessor):
 class DataStream:
     def __init__(self) -> None:
         self.processors: list[DataProcessor] = []
-        self._total_procces: int = 0
+        self._total_process: int = 0
 
     def register_processor(self, proc: DataProcessor) -> None:
         self.processors.append(proc)
 
     def process_stream(self, stream: list[Any]) -> None:
         for item in stream:
-            handlet = False
+            handled = False
             for proc in self.processors:
                 if proc.validate(item):
                     proc.ingest(item)
-                    self._total_procces += 1
-                    handlet = True
+                    self._total_process += 1
+                    handled = True
                     break
-            if not handlet:
+            if not handled:
                 print(
                     "DataStream error - Can't process element in stream: "
                     f"{item}")
@@ -128,11 +128,12 @@ class DataStream:
             print("No processor found, no data")
             return
         for proc in self.processors:
-            print(f"{proc.__class__.__name__.replace
-                     ("Processor", " Processor")}: "
-                  f"total {proc._total_procces} items processed, "
-                  f"remaining {len(proc._storage)} on processor"
-                  )
+            proc_name = proc.__class__.__name__.replace(
+                "Processor", " Processor")
+            print(
+                f"{proc_name}: total {proc._total_process} items processed, "
+                f"remaining {len(proc._storage)} on processor"
+            )
 
 
 def main() -> None:
